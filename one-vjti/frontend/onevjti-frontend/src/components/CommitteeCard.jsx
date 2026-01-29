@@ -24,15 +24,21 @@
 import React from 'react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const CommitteeCard = ({ committee }) => {
   const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+
 
   // Derived state: Check if this committee's ID is in the user's following array
   // We use .some() or .includes() to compare
   const isFollowing = user?.following?.some(id => id === committee._id);
 
-  const handleFollow = async () => {
+  const handleFollow = async (e) => {
+    e.stopPropagation();
+
     if (!user) {
         alert("Please login to follow committees");
         return;
@@ -52,26 +58,45 @@ const CommitteeCard = ({ committee }) => {
     }
   };
 
+  console.log("committee.slug =", committee.slug);
+
+
+   const handleCardClick = () => {
+  navigate(`/committees/${committee.slug}`);
+};
+
+
   return (
-    <div className='bg-white p-6 rounded-xl shadow-md text-center border hover:border-purple-400 transition-all'>
-        {committee.logo && (
-            <img src={committee.logo} alt={committee.name} className="w-20 h-20 mx-auto mb-4 object-contain"/>
-        )}
-        <h3 className='text-lg font-bold'>{committee.name}</h3>
-        <p className='text-sm text-gray-600 mt-2 mb-4'>{committee.description}</p>
-        
-        <button 
-            onClick={handleFollow}
-            className={`w-full py-2 rounded-lg font-semibold transition ${
-                isFollowing 
-                ? 'bg-gray-100 text-gray-600 border border-gray-300' 
-                : 'bg-purple-600 text-white hover:bg-purple-700'
-            }`}
-        >
-            {isFollowing ? 'Following' : 'Follow'}
-        </button>
+    <div
+      onClick={handleCardClick}
+      className='bg-white p-6 rounded-xl shadow-md text-center border hover:border-purple-400 transition-all cursor-pointer'
+    >
+      {committee.logo && (
+        <img
+          src={committee.logo}
+          alt={committee.name}
+          className="w-20 h-20 mx-auto mb-4 object-contain"
+        />
+      )}
+
+      <h3 className='text-lg font-bold'>{committee.name}</h3>
+      <p className='text-sm text-gray-600 mt-2 mb-4'>
+        {committee.description}
+      </p>
+
+      <button 
+        onClick={handleFollow}
+        className={`w-full py-2 rounded-lg font-semibold transition ${
+          isFollowing 
+            ? 'bg-gray-100 text-gray-600 border border-gray-300' 
+            : 'bg-purple-600 text-white hover:bg-purple-700'
+        }`}
+      >
+        {isFollowing ? 'Following' : 'Follow'}
+      </button>
     </div>
   );
-}
+};
+
 
 export default CommitteeCard;

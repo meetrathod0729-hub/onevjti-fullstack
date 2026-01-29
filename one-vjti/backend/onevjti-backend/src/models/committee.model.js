@@ -13,7 +13,13 @@ const committeeSchema = new Schema({
     logo: {
         type: String,
         required: false
-    }
+    },
+
+    slug: {
+    type: String,
+    required: true,
+    unique: true
+  }
 
 },{timestamps:true})
 

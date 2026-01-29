@@ -18,6 +18,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import ChangePassword from './pages/ChangePassword'
 import Profile from './pages/Profile'
 import Notifications from './pages/Notifications'
+import CommitteeMembersPage from './pages/CommitteeMembersPage'
+import CommitteeDetailPage from './pages/CommitteeDetailPage'
 const App= ()=>{
 
   return (
@@ -46,9 +48,12 @@ const App= ()=>{
               <Profile />
             </ProtectedRoute>
           } />
-        <Route path='/users/forgotpass' element={<ForgotPass/>}/>.
+        <Route path='/users/forgotpass' element={<ForgotPass/>}/>
         <Route path="/users/committees" element={<Committees />} />
         <Route path="/events/:eventId" element={<EventDetails />} />
+        <Route path="/users/committee/members" element={ <CommitteeMembersPage />} />
+        <Route path="/committees/:id" element={<CommitteeDetailPage />} />
+
       </Routes>
       </main>
       <Footer />
