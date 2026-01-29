@@ -189,7 +189,7 @@ const createCommittee = asyncHandler(async (req, res) => {
 });
 
 const getAllCommittees = asyncHandler(async (req, res) => {
-    const committees = await Committee.find().select("name description logo");
+    const committees = await Committee.find().select("name description logo slug");  //slug added by me
 
     return res.status(200).json(
         new ApiResponse(200, committees, "Committees fetched successfully")
